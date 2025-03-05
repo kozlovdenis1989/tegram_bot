@@ -1,0 +1,25 @@
+{
+  "model": "words",
+  "fields": [
+    {"ru": "привет", "en": "hello", "common": true},
+    {"ru": "спасибо", "en": "thank you", "common": true},
+    {"ru": "да", "en": "yes", "common": true},
+    {"ru": "нет", "en": "no", "common": true},
+    {"ru": "человек", "en": "person", "common": true},
+    {"ru": "время", "en": "time", "common": true},
+    {"ru": "день", "en": "day", "common": true},
+    {"ru": "ночь", "en": "night", "common": true},
+    {"ru": "дом", "en": "house", "common": true},
+    {"ru": "город", "en": "city", "common": true},
+    {"ru": "работа", "en": "work", "common": true},
+    {"ru": "машина", "en": "car", "common": true},
+    {"ru": "дорога", "en": "road", "common": true},
+    {"ru": "вода", "en": "water", "common": true},
+    {"ru": "еда", "en": "food", "common": true},
+    {"ru": "семья", "en": "family", "common": true},
+    {"ru": "друг", "en": "friend", "common": true},
+    {"ru": "книга", "en": "book", "common": true},
+    {"ru": "школа", "en": "school", "common": true},
+    {"ru": "музыка", "en": "music", "common": true}
+  ]
+}
