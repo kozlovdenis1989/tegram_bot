@@ -5,7 +5,7 @@ from models import Base, Users, Words, UsersWords
 import json
 import os
 
-from random import sample
+from random import sample, choice
 from settings import DSN
 
 
@@ -30,6 +30,13 @@ def search_in_db(model, **filters):
     except Exception as e:
         return False
         
+def get_users_chats():
+    try:
+        users = db.query(Users).all()
+        return [user.chat_id for user in users]
+    except:
+        return False
+
 
 def add_to_db(model, **kwargs):
     """
@@ -230,17 +237,46 @@ def add_word(chat_id, russian_word, english_word):
         print(e)
         return False
     
+
+def answer(set):
+    '''
+    Генерация ответов 
+    '''
+    false = [
+    "Не верно, попробуй ещё раз.",
+    "Не угадал, но ты на верном пути!",
+    "Не верно, но не сдавайся!",
+    "Не правильно, не расстраивайся!",
+    "Ошибся, но ты близок к ответу!",
+    "Не правильно, подумай ещё немного!",
+    "Не верно, но у тебя обязательно получится!",
+    "Ошибка, давай попробуем иначе.",
+    "Не верно, но ты уже почти у цели!",
+    "Не правильно, но это отличная попытка!"
+    ]
+    true = [
+    "Прекрасно!!",
+    "Ты молодец!",
+    "Отличная работа!",
+    "Блестяще!",
+    "Фантастический результат!",
+    "Так держать!",
+    "Ты справился на ура!",
+    "Великолепно!",
+    "Просто супер!",
+    "Ты на высоте!"
+    ]
+    if set == 'right':
+        return choice(true)
+    if set == 'wrong':
+        return choice(false)
     
     
+
 
 
 
 if __name__ == '__main__':
 
-   
-    # user_id = search_in_db(db, Users, chat_id = 5175957601)
-    # print(user_id[0])
-    # my_words_id(5175957601)
-    # get_4_words(5175957601)
-    # del_my_words(5175957601, 'qwerty', 'ru')
-    print(check_lang('фы '))
+    create_tables()
+    create_data()

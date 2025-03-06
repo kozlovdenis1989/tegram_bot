@@ -5,7 +5,7 @@ import time
 
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
-from crud import create_tables, create_data, get_4_words, add_word, register_user, del_my_words, check_lang, search_in_db
+from crud import create_tables, create_data, get_4_words, add_word, register_user, del_my_words, check_lang, get_users_chats, answer
 from settings import TOKEN
 from models import Users
 
@@ -13,10 +13,6 @@ user_states = {}  # Хранение состояний пользователе
 user_last_word = 'f' # Хранение последнего слова
 
 
-# Создаем таблицы и общие слова
-
-# create_tables()
-# create_data()
 
 bot = telebot.TeleBot(TOKEN)
 print('Start bot')
@@ -33,9 +29,7 @@ class Words():
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    start_message = f"Привет! Я бот для изучения английского\n"
-    f"Ты можешь отгадывать слова, пролистывать, добавлять свои и \n"
-    f"удалять их. Давай учиться?"
+    start_message = f"Привет! Я бот для изучения английского\nТы можешь отгадывать слова, пролистывать, добавлять свои и \nудалять их. Давай учиться?"
     Word = Words(message.chat.id)
     
     bot.send_message(message.chat.id, start_message, reply_markup=ReplyKeyboardRemove())
@@ -160,27 +154,30 @@ def greet_user(message):
 
     # проверка слова
     if message.text == Word.word_true[1]:
-        bot.send_message(message.chat.id, "Верно!!!")
+        bot.send_message(message.chat.id, answer('right'))
         send_start_menu(message)
     else:
-        bot.send_message(message.chat.id, f"Неправильно, поробуй еще\nСлово : {Word.word_true[0]}")
+        bot.send_message(message.chat.id, f"{answer('wrong')}")
+        time.sleep(0.2)
+        bot.send_message(message.chat.id, f"Слово : {Word.word_true[0]}")
 
 
 
 def send_start_to_self():
-    time.sleep(1)  # Даем боту немного времени на запуск
-    # Получаем его username
+    time.sleep(1) 
+    chats = get_users_chats() 
     markup = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)  
     btn_start = KeyboardButton("/start")
     markup.add(btn_start)
-    # for chat in search_in_db(Users, id)
-    #     bot.send_message( "5175957601", 'pres start', reply_markup=markup)  # Отправляем команду самому себе
+    if chats:
+        for chat in chats:
+            bot.send_message(chat, 'pres start', reply_markup=markup)  # Отправляем команду самому себе
 
 
 
 # Запуск бота
 if __name__ == '__main__':
-    # send_start_to_self()
+    send_start_to_self()
     bot.polling(none_stop=True)
     
     
